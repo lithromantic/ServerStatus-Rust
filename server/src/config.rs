@@ -226,20 +226,28 @@ pub fn from_str(content: &str) -> Option<Config> {
 }
 
 pub fn from_env() -> Option<Config> {
-    // 获取 Base64 编码的环境变量
+    // 尝试从 Base64 编码的环境变量加载配置
     if let Ok(encoded) = env::var("SRV_CONF_BASE64") {
-        if let Ok(decoded) = decode(encoded) {
+        eprintln!("🚀 Using SRV_CONF_BASE64 for configuration.");
+        if let Ok(decoded) = decode(&encoded) {
             if let Ok(config_str) = String::from_utf8(decoded) {
                 return from_str(&config_str);
+            } else {
+                eprintln!("❌ Failed to decode SRV_CONF_BASE64: invalid UTF-8.");
             }
+        } else {
+            eprintln!("❌ Failed to decode SRV_CONF_BASE64: invalid Base64.");
         }
     }
 
-    // 回退到原始方式
+    // 回退到原始的 SRV_CONF 环境变量
     if let Ok(config) = env::var("SRV_CONF") {
+        eprintln!("⚠️ Using SRV_CONF for configuration.");
         return from_str(&config);
     }
 
+    // 如果没有任何配置可用，打印提示
+    eprintln!("❌ No valid configuration found in environment variables.");
     None
 }
 
