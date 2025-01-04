@@ -2,8 +2,9 @@ name: Build and Push Docker Image to GHCR
 
 on:
   push:
-    tags:
-      - "docker"
+    branches:
+      - main  # 仅在推送到 main 分支时触发
+  workflow_dispatch:  # 允许手动触发
 
 env:
   APP_NAME: stat_server
