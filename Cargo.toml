@@ -7,3 +7,6 @@ codegen-units = 1
 lto = true
 opt-level = "z"
 panic = "abort"
+
+[dependencies]
+base64 = "0.21" # 或者使用最新版本
