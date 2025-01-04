@@ -6,6 +6,7 @@ use std::collections::HashMap;
 use std::env;
 use std::fs;
 use uuid::Uuid;
+use base64::decode;
 
 use crate::notifier;
 
@@ -225,11 +226,21 @@ pub fn from_str(content: &str) -> Option<Config> {
 }
 
 pub fn from_env() -> Option<Config> {
-    from_str(
-        env::var("SRV_CONF")
-            .expect("can't load config from env `SRV_CONF")
-            .as_str(),
-    )
+    // 获取 Base64 编码的环境变量
+    if let Ok(encoded) = env::var("SRV_CONF_BASE64") {
+        if let Ok(decoded) = decode(encoded) {
+            if let Ok(config_str) = String::from_utf8(decoded) {
+                return from_str(&config_str);
+            }
+        }
+    }
+
+    // 回退到原始方式
+    if let Ok(config) = env::var("SRV_CONF") {
+        return from_str(&config);
+    }
+
+    None
 }
 
 pub fn from_file(cfg: &str) -> Option<Config> {
