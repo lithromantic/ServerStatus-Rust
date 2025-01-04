@@ -54,6 +54,7 @@ tonic = {version = "0.11", features = ["tls", "tls-webpki-roots", "gzip"]}
 tower-http = { version = "0.5", features = ["cors", "add-extension"] }
 url = "2.5.0"
 uuid = {version = "1.7", default-features = false, features = ["serde", "v4"]}
+base64 = "0.21"
 
 [package.metadata.deb]
 maintainer = "zdz <doge.py@gmail.com>"
