@@ -6,7 +6,8 @@ use std::collections::HashMap;
 use std::env;
 use std::fs;
 use uuid::Uuid;
-use base64::decode;
+use base64::{engine::general_purpose, Engine};
+use std::str::from_utf8;
 
 use crate::notifier;
 
@@ -229,7 +230,7 @@ pub fn from_env() -> Option<Config> {
     // 尝试从 Base64 编码的环境变量加载配置
     if let Ok(encoded) = env::var("SRV_CONF_BASE64") {
         eprintln!("🚀 Using SRV_CONF_BASE64 for configuration.");
-        if let Ok(decoded) = decode(&encoded) {
+        if let Ok(decoded) = general_purpose::STANDARD.decode(&encoded) {
             if let Ok(config_str) = String::from_utf8(decoded) {
                 return from_str(&config_str);
             } else {
