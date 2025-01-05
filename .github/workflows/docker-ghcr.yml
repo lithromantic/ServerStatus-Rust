@@ -45,4 +45,5 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: |
-          ghcr.io/lithromantic/serverstatus-rust:latest
+          ghcr.io/lithromantic/stat_server:latest
+          ghcr.io/lithromantic/stat_server:${{ env.GIT_TAG }}
