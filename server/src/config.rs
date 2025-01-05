@@ -7,7 +7,6 @@ use std::env;
 use std::fs;
 use uuid::Uuid;
 use base64::{engine::general_purpose, Engine};
-use std::str::from_utf8;
 
 use crate::notifier;
 
