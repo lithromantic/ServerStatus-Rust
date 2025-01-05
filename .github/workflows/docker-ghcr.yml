@@ -46,4 +46,3 @@ jobs:
         push: true
         tags: |
           ghcr.io/lithromantic/serverstatus-rust:latest
-          ghcr.io/lithromantic/serverstatus-rust:${{ env.GIT_TAG }}
